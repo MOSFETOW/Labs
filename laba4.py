@@ -1,4 +1,6 @@
-def format_price(price: float) -> str:
+def main():
+
+def format_price(price: float):
     #Форматує ціну у вигляді 'ціна: xxx.xx грн
     rounded = round(price, 2)  
     price_str = str(rounded)
@@ -11,18 +13,18 @@ def format_price(price: float) -> str:
     return f"ціна: {price_str} грн"
 
 
-
 store_items = [
-        {"хліб": True,"ціна":13},
-        {"молоко": True,"ціна":123},
-        {"яйця": True,"ціна":17},
-        {"цукор": True,"ціна":56},
-        {"сіль": False,"ціна":97},
-        {"масло": False,"ціна":12.50},
-        {"сир": True,"ціна":89},
-        {"ковбаса": True,"ціна":54},
-        {"борошно": True,"ціна":76.09},
-        {"чай": True,"ціна":123}]
+    {"назва": "хліб", "наявність": True, "ціна": 13},
+    {"назва": "молоко", "наявність": True, "ціна": 123},
+    {"назва": "яйця", "наявність": True, "ціна": 17},
+    {"назва": "цукор", "наявність": True, "ціна": 56},
+    {"назва": "сіль", "наявність": False, "ціна": 97},
+    {"назва": "масло", "наявність": False, "ціна": 12.50},
+    {"назва": "сир", "наявність": True, "ціна": 89},
+    {"назва": "ковбаса", "наявність": True, "ціна": 54},
+    {"назва": "борошно", "наявність": True, "ціна": 76.09},
+    {"назва": "чай", "наявність": True, "ціна": 123},
+]
 
 
 
@@ -48,99 +50,63 @@ print(format_price(353))
 print(check_availability("хліб", "яблука", "чай"))
 
 
+
+
 store_items = [
-    {"назва": "хліб", "наявність": True, "ціна": 13},
-    {"назва": "молоко", "наявність": True, "ціна": 123},
-    {"назва": "яйця", "наявність": True, "ціна": 17},
-    {"назва": "цукор", "наявність": True, "ціна": 56},
-    {"назва": "сіль", "наявність": False, "ціна": 97},
-    {"назва": "масло", "наявність": False, "ціна": 12.50},
-    {"назва": "сир", "наявність": True, "ціна": 89},
-    {"назва": "ковбаса", "наявність": True, "ціна": 54},
-    {"назва": "борошно", "наявність": True, "ціна": 76.09},
-    {"назва": "чай", "наявність": True, "ціна": 123},
+    {"хліб": True, "ціна": 13},
+    {"молоко": True, "ціна": 123},
+    {"яйця": True, "ціна": 17},
+    {"цукор": True, "ціна": 56},
+    {"сіль": False, "ціна": 97},
+    {"масло": False, "ціна": 12.50},
+    {"сир": True, "ціна": 89},
+    {"ковбаса": True, "ціна": 54},
+    {"борошно": True, "ціна": 76.09},
+    {"чай": True, "ціна": 123}
 ]
 
+def order(*args, buy=False):
+    total = 0
+    available = True
 
-def market(command: str):
-    parts = command.split()
-    action = parts[0]   # "купити" або "ціна"
-    products = parts[1:]  # список товарів
-    
-    if action == "купити":
-        not_available = []
-        i = 0
-        while i < len(products):
-            product = products[i]
-            found = False
-            j = 0
-            while j < len(store_items):
-                item = store_items[j]
-                if item["назва"] == product and item["наявність"]:
-                    found = True
-                    break
-                j += 1
-            if not found:
-                not_available.append(product)
-            i += 1
-        
-        if len(not_available) > 0:
-            print("Купівля не відбулась!")
-            k = 0
-            while k < len(not_available):
-                if k == 0:
-                    print(not_available[k], end="")
+    # Перевіряємо наявність кожного товару
+    for product in args:
+        found = False
+        for item in store_items:
+            if product in item:
+                found = True
+                if item[product]:  # якщо товар є в наявності
+                    total += item["ціна"]
                 else:
-                    print(", " + not_available[k], end="")
-                k += 1
-            print(" - немає в наявності")
-        else:
-            print("Куплено: ", end="")
-            i = 0
-            while i < len(products):
-                if i == 0:
-                    print(products[i], end="")
-                else:
-                    print(", " + products[i], end="")
-                i += 1
-            print()
+                    print(f"Товар '{product}' відсутній .")
+                    available = False
+                break
+
+        if not found:
+            print(f"Товар '{product}' не знайдено ")
+            available = False
+
+    # Якщо користувач лише переглядає ціну
+    if not buy:
+        print(f"Загальна вартість вибраних товарів: {total} грн.")
+        return
+
+    # Якщо користувач хоче купити
+    if buy and available:
+        print(f"Замовлення прийнято! {total} грн.")
+    else:
+        print("Замовлення неможливе, бо товари відсутні.")
+
+
+# приклади використання:
+order("молоко", "чай", buy=False)   # просто перегляд ціни
+order("молоко", "чай", buy=True)    # купівля
+order("молоко", "сіль", buy=True)   # один товар відсутній
     
-    elif action == "ціна":
-        i = 0
-        while i < len(products):
-            product = products[i]
-            j = 0
-            found = False
-            while j < len(store_items):
-                item = store_items[j]
-                if item["назва"] == product:
-                    print(f"{product} ціна: {item['ціна']} грн")
-                    found = True
-                    break
-                j += 1
-            if not found:
-                print(f"{product} - немає такого товару")
-            i += 1
 
-
-# Приклади роботи:
-market("купити молоко цукор сіль")
-# Купівля не відбулась!
-# сіль - немає в наявності
-
-market("купити сіль цукор масло")
-# Купівля не відбулась!
-# сіль, масло - немає в наявності
-
-market("купити молоко цукор чай")
-# Куплено: молоко, цукор, чай
-
-market("ціна молоко цукор сіль")
-# молоко ціна: 123 грн
-# цукор ціна: 56 грн
-# сіль ціна: 97 грн
-    
-    
+if __name__ == '__main__':
+    main()
+            
 
 
 
