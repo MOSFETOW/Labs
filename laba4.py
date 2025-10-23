@@ -14,38 +14,6 @@ def format_price(price: float):
 
 
 store_items = [
-    {"назва": "хліб", "наявність": True, "ціна": 13},
-    {"назва": "молоко", "наявність": True, "ціна": 123},
-    {"назва": "яйця", "наявність": True, "ціна": 17},
-    {"назва": "цукор", "наявність": True, "ціна": 56},
-    {"назва": "сіль", "наявність": False, "ціна": 97},
-    {"назва": "масло", "наявність": False, "ціна": 12.50},
-    {"назва": "сир", "наявність": True, "ціна": 89},
-    {"назва": "ковбаса", "наявність": True, "ціна": 54},
-    {"назва": "борошно", "наявність": True, "ціна": 76.09},
-    {"назва": "чай", "наявність": True, "ціна": 123},
-]
-
-
-
-#Перевіряє наявність  товарів у магазині
-def check_availability(*products):
-    global store_items
-    
-    result = {}
-    for product in products:
-        if product in store_items:
-            result[product] = True
-        else:
-            result[product] = False
-    return result
-
-
-
-
-
-
-store_items = [
     {"хліб": True, "ціна": 13},
     {"молоко": True, "ціна": 123},
     {"яйця": True, "ціна": 17},
@@ -55,10 +23,29 @@ store_items = [
     {"сир": True, "ціна": 89},
     {"ковбаса": True, "ціна": 54},
     {"борошно": True, "ціна": 76.09},
-    {"чай": True, "ціна": 123}
-]
+    {"чай": True, "ціна": 123}]
 
-def order(*args, buy=False):
+
+#Перевіряє наявність  товарів у магазині
+def check_availability(*products):
+    result = {}
+    for product in products:
+        result.update({product:False})
+        for select_item in store_items:           
+            if select_item.get(product):
+                result[product]=True
+                continue   
+    return result
+
+
+
+
+
+
+
+
+
+def order(*args, option=False):
     total = 0
     available = True
 
@@ -80,12 +67,12 @@ def order(*args, buy=False):
             available = False
 
     # Якщо користувач лише переглядає ціну
-    if not buy:
+    if not option:
         print(f"Загальна вартість вибраних товарів: {total} грн.")
         return
 
     # Якщо користувач хоче купити
-    if buy and available:
+    if option and available:
         print(f"Замовлення прийнято! {total} грн.")
     else:
         print("Замовлення неможливе, бо товари відсутні.")
@@ -96,28 +83,21 @@ def main():
 
     # Приклад використання
     print(format_price(123.4))
-    print(format_price(1.467))
+    print(format_price(1.47467))
     print(format_price(353))  
     
     
-    print(check_availability("хліб", "яблука", "чай"))
+    print(check_availability("сир","хліб", "яблука", "чай"))
 
 
 
 
     
     # приклади використання:
-    order("молоко", "чай", buy=False)   # просто перегляд ціни
-    order("молоко", "чай", buy=True)    # купівля
-    order("молоко", "сіль", buy=True)   # один товар відсутній
+    order("молоко", "чай", option=False)   # просто перегляд ціни
+    order("молоко", "чай", option=True)    # купівля
+    order("молоко", "сіль", option=True)   # один товар відсутній
     
 
 if __name__ == '__main__':
     main()
-            
-
-
-
-
-
-
