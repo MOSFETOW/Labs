@@ -1,4 +1,4 @@
-def main():
+
 
 def format_price(price: float):
     #Форматує ціну у вигляді 'ціна: xxx.xx грн
@@ -41,13 +41,6 @@ def check_availability(*products):
     return result
 
 
-# Приклад використання
-print(format_price(123.4))
-print(format_price(1.467))
-print(format_price(353))  
-
-
-print(check_availability("хліб", "яблука", "чай"))
 
 
 
@@ -97,16 +90,32 @@ def order(*args, buy=False):
     else:
         print("Замовлення неможливе, бо товари відсутні.")
 
+def main():
 
-# приклади використання:
-order("молоко", "чай", buy=False)   # просто перегляд ціни
-order("молоко", "чай", buy=True)    # купівля
-order("молоко", "сіль", buy=True)   # один товар відсутній
+
+
+    # Приклад використання
+    print(format_price(123.4))
+    print(format_price(1.467))
+    print(format_price(353))  
+    
+    
+    print(check_availability("хліб", "яблука", "чай"))
+
+
+
+
+    
+    # приклади використання:
+    order("молоко", "чай", buy=False)   # просто перегляд ціни
+    order("молоко", "чай", buy=True)    # купівля
+    order("молоко", "сіль", buy=True)   # один товар відсутній
     
 
 if __name__ == '__main__':
     main()
             
+
 
 
 
