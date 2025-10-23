@@ -1,12 +1,10 @@
+import requests
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from PIL import Image, ImageDraw
+    
 def main():
-    
-    import requests
-    import pandas as pd
-    import numpy as np
-    import matplotlib.pyplot as plt
-    from PIL import Image, ImageDraw
-    
-    
     # 1. requests — простий HTTP-запит
     try:
         
@@ -60,4 +58,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+
 
