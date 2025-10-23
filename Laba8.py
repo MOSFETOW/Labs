@@ -14,7 +14,7 @@ bot=telebot.TeleBot(TOKEN)
 
 @bot.message_handler()
 def start_message(message):
-    print(message)
+
     bot.send_message(message.chat.id,message.text)
 
 
@@ -25,4 +25,5 @@ def main():
 
 
 if __name__ == '__main__':
+
     main()
