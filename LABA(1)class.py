@@ -32,10 +32,14 @@ class Person(Humanity):
 # Використання
 #super() — це вбудована функція в Python, яка дозволяє звертатися до методів батьківського класу з дочірнього. 
 if __name__ == "__main__":
+    humanity=Humanity(8000000000)
+    humanity.grow(1000)
 
-    Humanity(8000000000).grow(1000)
+    
+    print(humanity.info())
+    
+    person=Person("Ivan", 25, 8000000000)
+    print(person.info())
 
-    print(Humanity(8000000000).info())
-    print(Person("Ivan", 25, 8000000000).info())
+    print("Population:",person.get_population())
 
-    print("Population:", Person("Ivan", 25, 8000000000).get_population())
